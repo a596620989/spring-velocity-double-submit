@@ -13,3 +13,6 @@ http://127.0.0.1:8080/demo?path=form-multipart
  * 同时打开两个相同的窗口并提交请求不在考虑范围内.
  * 请不要在一秒内快速刷新页面多次, 不然会误报.
  */
+如果检测到重复提交, 会在控制台看到如下的信息:
+logger.error("detect double submit" + servletPath);
+ 
