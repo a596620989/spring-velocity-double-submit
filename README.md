@@ -1,16 +1,15 @@
-CSRF soluation based on https://github.com/JavanLu/javan-blog/tree/master/springmvc-csrf-velocity with following case added
-1. ajax-post/get
-2. multipart/form-data
+启动 eclipse debug-as -> mvn -> jetty:run
 
-spring-csrf-velocity
-==========
+http://127.0.0.1:8080/demo?path=ajax-post-multi
+http://127.0.0.1:8080/demo?path=ajax-get
+http://127.0.0.1:8080/demo?path=ajax-post-single
+http://127.0.0.1:8080/demo?path=form-multi-form
+http://127.0.0.1:8080/demo?path=form-multipart
 
-Code sample for CSRF defense
-
-1. execute:
-bin/mvn_jetty_run.bat
-
-2. see the demo: http://localhost:8080/csrf-demo
-
-Attention:
-It is a maven web project.
+重复提交检测机制
+/**
+ * 计算两次相同请求的间隔.
+ * 每次请求会sleep 1秒, 如果我们检测到两次相同请求的间隔时间小于3秒, 则判定为重复提交.
+ * 同时打开两个相同的窗口并提交请求不在考虑范围内.
+ * 请不要在一秒内快速刷新页面多次, 不然会误报.
+ */

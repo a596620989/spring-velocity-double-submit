@@ -2,9 +2,9 @@
 <toolbox>
 <xhtml>true</xhtml>
 <tool>
-    <key>csrfTool</key>
+    <key>simpleTool</key>
     <scope>application</scope>
-    <class>com.javan.util.CSRFTool</class>
+    <class>com.javan.util.SimpleTool</class>
 </tool>
 
 </toolbox> 

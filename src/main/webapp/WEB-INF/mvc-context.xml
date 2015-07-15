@@ -21,7 +21,6 @@
 		
 	<mvc:default-servlet-handler />
 	
-	<!-- CSRF Interceptor handlers -->
 	<mvc:interceptors>
 		<bean class="com.javan.security.SimpleHandlerInterceptor" />
 	</mvc:interceptors>

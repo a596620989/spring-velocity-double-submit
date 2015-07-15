@@ -1,49 +1,58 @@
 package com.javan.security;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
 
 /**
- * A Spring MVC <code>HandlerInterceptor</code> which is responsible to enforce CSRF token validity on incoming posts
- * requests. The interceptor should be registered with Spring MVC servlet using the following syntax:
- * 
- * <pre>
- *   &lt;mvc:interceptors&gt;
- *        &lt;bean class="com.eyallupu.blog.springmvc.controller.csrf.SimpleHandlerInterceptor"/&gt;
- *   &lt;/mvc:interceptors&gt;
- * </pre>
- * 
- * @see CSRFRequestDataValueProcessor
  */
 public class SimpleHandlerInterceptor extends HandlerInterceptorAdapter {
+    
+    private static final Logger logger = Logger.getLogger(SimpleHandlerInterceptor.class);
+    
+    //<reqestUrl, timestamp>的序列, 用来表示某次请求最后一次的
+    private static Map<String, Long> requestTimestamp = new HashMap<String, Long>();
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-		System.out.println("enter csrf:" + request.getContextPath()+request.getServletPath());
-		if (handler instanceof DefaultServletHttpRequestHandler) {
-			return true;
-		}
+	    logger.debug("enter interceptor");
 
 		if (request.getMethod().equalsIgnoreCase("GET")) {
 			// GET - allow the request
 			return true;
 		} else {
-			// This is a POST request - need to check the CSRF token
-			String sessionToken = CSRFTokenManager.getTokenForSession(request.getSession());
-			String requestToken = CSRFTokenManager.getTokenFromRequest(request);
-			System.out.println("session Token:"+sessionToken);
-			System.out.println("request token:"+requestToken);
-			if (sessionToken.equals(requestToken)) {
-				return true;
-			} else {
-				response.sendError(HttpServletResponse.SC_FORBIDDEN, "Bad or missing CSRF value");
-				return false;
-			}
+		    /**
+		     * 计算两次相同请求的间隔.
+		     * 每次请求会sleep 1秒, 如果我们检测到两次相同请求的间隔时间小于3秒, 则判定为重复提交.
+		     * 同时打开两个相同的窗口并提交请求不在考虑范围内.
+		     * 请不要在一秒内快速刷新页面多次, 不然会误报.
+		     */
+		    
+		    String servletPath = request.getServletPath();
+            
+		    Long previousRequest = requestTimestamp.get(servletPath);
+		    
+		    //first request
+		    if(previousRequest==null){
+		        previousRequest = 0L;
+		    }
+		    
+		    Long interval = System.currentTimeMillis() - previousRequest;
+		    
+		    if(interval < 1000){
+		        logger.error("detect double submit" + servletPath);
+		    }
+		    
+		    requestTimestamp.put(servletPath, System.currentTimeMillis());
 		}
+		
+		return true;
 	}
 
 }

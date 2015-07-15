@@ -8,7 +8,10 @@
 </head>
 
 <body>
-sadas
+	
+<p>
+	ajax get 请求
+</p>
 <script>
 	$.ajax({
         type : "get",

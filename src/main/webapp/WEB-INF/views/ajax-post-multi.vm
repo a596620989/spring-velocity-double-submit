@@ -24,6 +24,18 @@
 	});
 	
 	//multi ajax request
+	
+	$.ajax({
+        type : "POST",
+        url:'/ajax-post',
+        dateType:"json",
+        data:{val: 'val111', key2: 'value2'},
+        success : function(data){
+        },error:function(data) {
+			console.log("error");
+		}
+	});
+	
 	$.ajax({
         type : "POST",
         url:'/another-ajax-post',
