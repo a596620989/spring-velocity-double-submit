@@ -1,12 +1,12 @@
-启动 eclipse debug-as -> mvn -> jetty:run
+##启动 eclipse debug-as -> mvn -> jetty:run
 
-http://127.0.0.1:8080/demo?path=ajax-post-multi
-http://127.0.0.1:8080/demo?path=ajax-get
-http://127.0.0.1:8080/demo?path=ajax-post-single
-http://127.0.0.1:8080/demo?path=form-multi-form
-http://127.0.0.1:8080/demo?path=form-multipart
+*http://127.0.0.1:8080/demo?path=ajax-post-multi
+*http://127.0.0.1:8080/demo?path=ajax-get
+*http://127.0.0.1:8080/demo?path=ajax-post-single
+*http://127.0.0.1:8080/demo?path=form-multi-form
+*http://127.0.0.1:8080/demo?path=form-multipart
 
-重复提交检测机制
+##重复提交检测机制
 /**
  * 计算两次相同请求的间隔.
  * 每次请求会sleep 1秒, 如果我们检测到两次相同请求的间隔时间小于3秒, 则判定为重复提交.
