@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<title>csrf demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="padding-top:70px">
+
+<p>多个表单的例子</p>
+<br/>
+<form id="form1" action="/form1" method="post">
+   <input name="val" type="text"/>
+   <button type="submit" id="smt1" name="">提交</button>
+</form>
+
+<form id="form2" action="/form2" method="post">
+   <input name="val" type="text"/>
+   <button type="submit" id="smt2" name="">提交</button>
+</form>
+
+
+</body>
+</html>
